@@ -1,7 +1,5 @@
 <template>
-  <div v-show="showAddTask">
-    <AddTask @add-task="addTask"/>
-  </div>
+  <AddTask v-show="showAddTask" @add-task="addTask"/>
   <Tasks @toggle-reminder="toggleReminder" @delete-task="deleteTask" :tasks="tasks"/>
 </template>
 
@@ -11,16 +9,16 @@ import AddTask from '../components/AddTask';
 
 export default {
   name: 'Home',
-  components:{
+  components: {
     Tasks,
-    AddTask,
+    AddTask
   },
-  props:{
+  props: {
     showAddTask: Boolean
   },
   data () {
     return {
-      tasks: [],
+      tasks: []
     }
   },
   methods: {
@@ -30,7 +28,7 @@ export default {
     toggleReminder (id) {
       this.tasks = this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task)
     },
-    addTask(task){
+    addTask (task) {
       this.tasks = [...this.tasks, task];
     }
   },
