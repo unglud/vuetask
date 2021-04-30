@@ -4,6 +4,7 @@
 </template>
 
 <script>
+import {ref} from 'vue'
 import Tasks from '../components/Tasks';
 import AddTask from '../components/AddTask';
 
@@ -13,24 +14,30 @@ export default {
     Tasks,
     AddTask
   },
+  setup () {
+    const tasks = ref([]);
+
+    const deleteTask = (id) => {
+      tasks.value = tasks.value.filter((task) => task.id !== id);
+    };
+
+    const toggleReminder = (id) => {
+      tasks.value = tasks.value.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task)
+    };
+
+    const addTask = (task) => {
+      tasks.value = [...tasks.value, task];
+    }
+
+    return {
+      addTask,
+      deleteTask,
+      toggleReminder,
+      tasks
+    }
+  },
   props: {
     showAddTask: Boolean
-  },
-  data () {
-    return {
-      tasks: []
-    }
-  },
-  methods: {
-    deleteTask (id) {
-      this.tasks = this.tasks.filter((task) => task.id !== id);
-    },
-    toggleReminder (id) {
-      this.tasks = this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task)
-    },
-    addTask (task) {
-      this.tasks = [...this.tasks, task];
-    }
   },
   created () {
     this.tasks = [

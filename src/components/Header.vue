@@ -9,20 +9,28 @@
 
 <script>
 import Button from './Button';
+import {computed} from 'vue';
+import {useRoute} from 'vue-router';
 
 export default {
   name: 'Header',
   components: {
     Button
   },
+  setup () {
+
+    const homePage = computed(() => {
+      const route = useRoute();
+      return route.path === '/';
+    })
+
+    return {
+      homePage
+    }
+  },
   props: {
     title: String,
     showAddTask: Boolean
-  },
-  computed: {
-    homePage () {
-      return this.$route.path === '/';
-    }
   }
 }
 </script>
