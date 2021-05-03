@@ -13,6 +13,7 @@ const actions = {
     );
     commit(`setTodos`, response.data);
   },
+
   async addTodo({ commit }, todo) {
     const response = await axios.post(
       "https://jsonplaceholder.typicode.com/todos",
@@ -21,10 +22,18 @@ const actions = {
 
     commit(`newTodo`, response.data);
   },
+
+  async deleteTodo({ commit }, id) {
+    commit(`removeTodo`, id);
+
+    await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
+
+  },
 };
 const mutations = {
   setTodos: (state, todos) => (state.todos = todos),
   newTodo: (state, todo) => state.todos.unshift(todo),
+  removeTodo: (state, id) => state.todos = state.todos.filter((todo) => todo.id !== id),
 };
 
 export default {

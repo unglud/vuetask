@@ -25,7 +25,7 @@ export default {
     store.dispatch('fetchTodos');
 
     const deleteTask = (id) => {
-      tasks.value = tasks.value.filter((task) => task.id !== id);
+      store.dispatch('deleteTodo', id);
     };
 
     const toggleReminder = (id) => {

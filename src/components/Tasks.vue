@@ -15,7 +15,11 @@ export default {
   },
   props: {
     tasks: []
-  }
+  },
+  emits: [
+    'delete-task',
+    'toggle-reminder'
+  ]
 }
 </script>
 
