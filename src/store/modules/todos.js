@@ -27,8 +27,14 @@ const actions = {
     commit(`removeTodo`, id);
 
     await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
-
   },
+
+  async filterTodos({ commit }, limit) {
+    const response = await axios.get(`https://jsonplaceholder.typicode.com/todos?_limit=${limit}`);
+
+    commit(`setTodos`, response.data);
+  },
+
 };
 const mutations = {
   setTodos: (state, todos) => (state.todos = todos),

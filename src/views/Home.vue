@@ -1,5 +1,6 @@
 <template>
   <AddTask v-show="showAddTask" @add-task="addTask"/>
+  <Filter />
   <Tasks @toggle-reminder="toggleReminder" @delete-task="deleteTask" :tasks="allTodos"/>
 </template>
 
@@ -8,15 +9,15 @@ import {computed, ref} from 'vue'
 import Tasks from '../components/Tasks';
 import AddTask from '../components/AddTask';
 import {useStore} from 'vuex';
+import Filter from '../components/Filter';
 
 export default {
   name: 'Home',
   components: {
     Tasks,
-    AddTask
+    AddTask,
+    Filter
   },
-
-
   setup () {
     const store = useStore();
     const tasks = ref([]);
