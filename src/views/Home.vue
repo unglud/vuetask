@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import {computed, ref} from 'vue'
+import {computed} from 'vue'
 import Tasks from '../components/Tasks';
 import AddTask from '../components/AddTask';
 import {useStore} from 'vuex';
@@ -20,7 +20,6 @@ export default {
   },
   setup () {
     const store = useStore();
-    const tasks = ref([]);
     const allTodos = computed(() => store.getters.allTodos);
 
     store.dispatch('fetchTodos');
@@ -29,8 +28,12 @@ export default {
       store.dispatch('deleteTodo', id);
     };
 
-    const toggleReminder = (id) => {
-      tasks.value = tasks.value.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task)
+    const toggleReminder = (task) => {
+      store.dispatch('updateTodo', {
+        id: task.id,
+        title: task.title,
+        completed: !task.reminder
+      });
     };
 
     const addTask = (task) => {
@@ -41,8 +44,7 @@ export default {
       addTask,
       deleteTask,
       toggleReminder,
-      allTodos,
-      tasks
+      allTodos
     }
   },
   props: {
