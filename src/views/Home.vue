@@ -4,10 +4,10 @@
 </template>
 
 <script>
-import {ref} from 'vue'
+import {computed, ref} from 'vue'
 import Tasks from '../components/Tasks';
 import AddTask from '../components/AddTask';
-import {mapGetters} from 'vuex';
+import {mapGetters, useStore} from 'vuex';
 
 export default {
   name: 'Home',
@@ -16,7 +16,12 @@ export default {
     AddTask
   },
   setup () {
+    const store = useStore();
     const tasks = ref([]);
+    const allTodos = computed(() => store.getters.allTodos);
+
+    store.dispatch('fetchTodos');
+
 
     const deleteTask = (id) => {
       tasks.value = tasks.value.filter((task) => task.id !== id);
@@ -34,13 +39,13 @@ export default {
       addTask,
       deleteTask,
       toggleReminder,
+      allTodos,
       tasks
     }
   },
   props: {
     showAddTask: Boolean
-  },
-  computed: mapGetters(['allTodos'])
+  }
 }
 </script>
 
