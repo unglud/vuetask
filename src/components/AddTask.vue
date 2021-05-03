@@ -2,16 +2,7 @@
   <form @submit="onSubmit" class="add-form">
     <div class="form-control">
       <label>Task</label>
-      <input type="text" v-model="text" name="text" placeholder="Add Task"/>
-    </div>
-    <div class="form-control">
-      <label>Day & Time</label>
-      <input
-          type="text"
-          v-model="day"
-          name="day"
-          placeholder="Add Day & Time"
-      />
+      <input type="text" v-model="title" name="title" placeholder="Add Task"/>
     </div>
     <div class="form-control form-control-check">
       <label>Set Reminder</label>
@@ -27,9 +18,9 @@ import {ref} from 'vue';
 
 export default {
   name: 'AddTask',
+  emits:['add-task'],
   setup (props, context) {
-    const text = ref('');
-    const day = ref('');
+    const title = ref('');
     const reminder = ref(false);
 
     const onSubmit = (e) => {
@@ -37,21 +28,18 @@ export default {
 
       const newTask = {
         id: Math.floor(Math.random() * 100_000),
-        text: text.value,
-        day: day.value,
+        title: title.value,
         reminder: reminder.value
       }
 
       context.emit('add-task', newTask);
 
-      text.value = '';
-      day.value = '';
+      title.value = '';
       reminder.value = false;
     };
 
     return {
-      text,
-      day,
+      title,
       reminder,
       onSubmit
     }

@@ -7,7 +7,7 @@
 import {computed, ref} from 'vue'
 import Tasks from '../components/Tasks';
 import AddTask from '../components/AddTask';
-import {mapGetters, useStore} from 'vuex';
+import {useStore} from 'vuex';
 
 export default {
   name: 'Home',
@@ -15,13 +15,14 @@ export default {
     Tasks,
     AddTask
   },
+
+
   setup () {
     const store = useStore();
     const tasks = ref([]);
     const allTodos = computed(() => store.getters.allTodos);
 
     store.dispatch('fetchTodos');
-
 
     const deleteTask = (id) => {
       tasks.value = tasks.value.filter((task) => task.id !== id);
@@ -32,7 +33,7 @@ export default {
     };
 
     const addTask = (task) => {
-      tasks.value = [...tasks.value, task];
+      store.dispatch('addTodo', task);
     }
 
     return {
